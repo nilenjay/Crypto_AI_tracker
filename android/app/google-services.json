@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "216923549253",
+    "project_id": "cryptotracker-d21e5",
+    "storage_bucket": "cryptotracker-d21e5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:216923549253:android:258e6dea5d33941132bd2c",
+        "android_client_info": {
+          "package_name": "com.example.crypto_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0boG_cmLtA2qNyzZZOLseOEhPSA_YogM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
