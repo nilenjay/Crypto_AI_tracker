@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons/lucide_icons.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'dart:math';
 
-import '../../../core/app_theme.dart';
+import '../../../../core/app_theme.dart';
 import '../../data/models/coin_price_model.dart';
 import '../bloc/coin_detail_bloc.dart';
 import '../bloc/coin_detail_event.dart';
@@ -31,7 +30,6 @@ class _CoinDetailPageState extends State<CoinDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = NumberFormat.currency(symbol: '₹', decimalDigits: 2, locale: 'en_IN');
     final isPositive = widget.coin.change24hPct >= 0;
     
     return Scaffold(
@@ -87,7 +85,7 @@ class _CoinDetailPageState extends State<CoinDetailPage> {
             children: [
               // Price Header
               Text(
-                currencyFormat.format(widget.coin.priceUsd * 83.0), // Assuming INR approx
+                '₹${(widget.coin.priceUsd * 83.0).toStringAsFixed(2)}', // Assuming INR approx
                 style: const TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
@@ -98,7 +96,7 @@ class _CoinDetailPageState extends State<CoinDetailPage> {
               Row(
                 children: [
                   Icon(
-                    isPositive ? LucideIcons.trendingUp : LucideIcons.trendingDown,
+                    isPositive ? LucideIcons.trending_up : LucideIcons.trending_down,
                     color: isPositive ? AppTheme.successColor : AppTheme.errorColor,
                     size: 16,
                   ),
@@ -125,7 +123,7 @@ class _CoinDetailPageState extends State<CoinDetailPage> {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppTheme.cardColor,
+                  color: const Color(0xFF171B21),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Column(
@@ -219,7 +217,7 @@ class _CoinDetailPageState extends State<CoinDetailPage> {
                     return Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: AppTheme.cardColor,
+                        color: const Color(0xFF171B21),
                         borderRadius: BorderRadius.circular(24),
                         border: Border.all(color: Colors.blue.withOpacity(0.1)),
                       ),
@@ -318,7 +316,7 @@ class _CoinDetailPageState extends State<CoinDetailPage> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       decoration: BoxDecoration(
-        color: AppTheme.cardColor,
+        color: const Color(0xFF171B21),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
