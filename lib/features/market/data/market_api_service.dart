@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'models/coin_price_model.dart';
+import 'models/coin_insight_model.dart';
+import 'models/coin_graph_model.dart';
 
 class MarketApiService {
   final Dio _dio;
@@ -25,6 +27,30 @@ class MarketApiService {
         throw Exception('Failed to load price for $coinId. URI: ${e.requestOptions.uri}. Error: $e');
       }
       throw Exception('Failed to load price for $coinId: $e');
+    }
+  }
+
+  Future<CoinInsightModel> getInsights(String coinId) async {
+    try {
+      final response = await _dio.get('/insights/$coinId');
+      return CoinInsightModel.fromJson(response.data);
+    } catch (e) {
+      if (e is DioException) {
+        throw Exception('Failed to load insights for $coinId. URI: ${e.requestOptions.uri}. Error: $e');
+      }
+      throw Exception('Failed to load insights for $coinId: $e');
+    }
+  }
+
+  Future<CoinGraphModel> getGraphData(String coinId, {int days = 30}) async {
+    try {
+      final response = await _dio.get('/graph/$coinId', queryParameters: {'days': days});
+      return CoinGraphModel.fromJson(response.data);
+    } catch (e) {
+      if (e is DioException) {
+        throw Exception('Failed to load graph for $coinId. URI: ${e.requestOptions.uri}. Error: $e');
+      }
+      throw Exception('Failed to load graph for $coinId: $e');
     }
   }
 }

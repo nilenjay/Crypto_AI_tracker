@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/widgets/custom_bottom_nav.dart';
 import '../../data/models/coin_price_model.dart';
 import '../bloc/market_bloc.dart';
@@ -161,12 +162,16 @@ class _MarketPageState extends State<MarketPage> {
 
     String formattedChange = '${isPositive ? '+' : ''}${coin.change24hPct.toStringAsFixed(1)}%';
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFF171B21),
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return GestureDetector(
+      onTap: () {
+        context.push('/coin-detail', extra: {'coin': coin});
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFF171B21),
+          borderRadius: BorderRadius.circular(20),
+        ),
       child: Row(
         children: [
           Container(
@@ -247,6 +252,7 @@ class _MarketPageState extends State<MarketPage> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

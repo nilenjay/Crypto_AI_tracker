@@ -9,6 +9,7 @@ import '../features/ai_insights/presentation/pages/ai_insights_page.dart';
 import '../features/splash/presentation/pages/splash_screen.dart';
 import 'go_router_refresh_stream.dart';
 import '../features/market/presentation/pages/market_page.dart';
+import '../features/market/presentation/pages/coin_detail_page.dart';
 
 class AppRouter {
   static final router = GoRouter(
@@ -22,9 +23,15 @@ class AppRouter {
         path: '/market',
         builder: (context, state) => const MarketPage(),
       ),
+      GoRoute(
+        path: '/coin-detail',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return CoinDetailPage(coin: extra?['coin']);
+        },
+      ),
     ],
   );
-
   static GoRouter createRouter(AuthBloc authBloc) {
     return GoRouter(
       initialLocation: '/',
@@ -32,7 +39,7 @@ class AppRouter {
       redirect: (context, state) {
         final authState = authBloc.state;
         final bool loggedIn = authState.status == AuthStatus.authenticated;
-        
+
         // Paths that don't require authentication or redirection yet
         final bool isSplash = state.matchedLocation == '/';
         final bool isAuthPage = state.matchedLocation == '/login' || state.matchedLocation == '/signup';
@@ -75,6 +82,13 @@ class AppRouter {
         GoRoute(
           path: '/market',
           builder: (context, state) => const MarketPage(),
+        ),
+        GoRoute(
+          path: '/coin-detail',
+          builder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>?;
+            return CoinDetailPage(coin: extra?['coin']);
+          },
         ),
         GoRoute(
           path: '/profile',
