@@ -51,5 +51,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// The default MyHomePage widget from the Flutter template is no longer used.
-// It has been removed to avoid unused code warnings.
