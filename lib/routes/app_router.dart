@@ -25,6 +25,13 @@ class AppRouter {
         path: '/market',
         builder: (context, state) => const MarketPage(),
       ),
+      GoRoute(
+        path: '/coin-detail',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return CoinDetailPage(coin: extra?['coin']);
+        },
+      ),
     ],
   );
 }
