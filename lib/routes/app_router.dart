@@ -7,6 +7,7 @@ import '../features/dashboard/presentation/pages/dashboard_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
 import 'go_router_refresh_stream.dart';
 import '../features/market/presentation/pages/market_page.dart';
+import '../features/market/presentation/pages/coin_detail_page.dart';
 
 class AppRouter {
   static final router = GoRouter(
@@ -19,6 +20,13 @@ class AppRouter {
       GoRoute(
         path: '/market',
         builder: (context, state) => const MarketPage(),
+      ),
+      GoRoute(
+        path: '/coin-detail',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return CoinDetailPage(coin: extra?['coin']);
+        },
       ),
     ],
   );
@@ -56,6 +64,17 @@ class AppRouter {
         GoRoute(
           path: '/dashboard',
           builder: (context, state) => const DashboardPage(),
+        ),
+        GoRoute(
+          path: '/market',
+          builder: (context, state) => const MarketPage(),
+        ),
+        GoRoute(
+          path: '/coin-detail',
+          builder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>?;
+            return CoinDetailPage(coin: extra?['coin']);
+          },
         ),
         GoRoute(
           path: '/profile',

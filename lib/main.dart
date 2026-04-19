@@ -10,6 +10,7 @@ import 'features/auth/data/auth_repository.dart';
 import 'features/auth/presentation/auth_bloc/auth_bloc.dart';
 import 'features/market/data/market_api_service.dart';
 import 'features/market/presentation/bloc/market_bloc.dart';
+import 'features/market/presentation/bloc/coin_detail_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +37,9 @@ void main() async {
           ),
           BlocProvider(
             create: (context) => MarketBloc(apiService: marketApiService),
+          ),
+          BlocProvider(
+            create: (context) => CoinDetailBloc(apiService: marketApiService),
           ),
         ],
         child: const MyApp(),
