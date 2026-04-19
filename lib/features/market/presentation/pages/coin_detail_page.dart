@@ -9,6 +9,9 @@ import '../../data/models/coin_price_model.dart';
 import '../bloc/coin_detail_bloc.dart';
 import '../bloc/coin_detail_event.dart';
 import '../bloc/coin_detail_state.dart';
+import '../../../portfolio/data/models/portfolio_item.dart';
+import '../../../portfolio/presentation/bloc/portfolio_bloc.dart';
+import '../../../portfolio/presentation/bloc/portfolio_event.dart';
 
 class CoinDetailPage extends StatefulWidget {
   final CoinPriceModel coin;
@@ -21,11 +24,117 @@ class CoinDetailPage extends StatefulWidget {
 
 class _CoinDetailPageState extends State<CoinDetailPage> {
   String _selectedRange = '24H';
+  final _amountController = TextEditingController();
+  final _priceController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     context.read<CoinDetailBloc>().add(LoadCoinDetail(widget.coin.coinId));
+    _priceController.text = (widget.coin.priceUsd).toStringAsFixed(2);
+  }
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    _priceController.dispose();
+    super.dispose();
+  }
+
+  void _showAddPortfolioSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: const BoxDecoration(
+            color: Color(0xFF171B21),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Add to Portfolio', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  IconButton(
+                    icon: const Icon(Icons.close, color: Colors.white54),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              const Text('AMOUNT', style: TextStyle(color: Colors.white38, fontSize: 10, fontWeight: FontWeight.bold)),
+              TextField(
+                controller: _amountController,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                style: const TextStyle(fontSize: 18),
+                decoration: const InputDecoration(
+                  hintText: '0.00',
+                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white10)),
+                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.blueAccent)),
+                ),
+              ),
+              const SizedBox(height: 24),
+              const Text('BUY PRICE (USD)', style: TextStyle(color: Colors.white38, fontSize: 10, fontWeight: FontWeight.bold)),
+              TextField(
+                controller: _priceController,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                style: const TextStyle(fontSize: 18),
+                decoration: const InputDecoration(
+                  hintText: '0.00',
+                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white10)),
+                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.blueAccent)),
+                ),
+              ),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    final amount = double.tryParse(_amountController.text);
+                    final buyPrice = double.tryParse(_priceController.text);
+                    
+                    if (amount != null && amount > 0 && buyPrice != null && buyPrice > 0) {
+                      context.read<PortfolioBloc>().add(
+                        AddHoldingRequested(
+                          PortfolioItem(
+                            coinId: widget.coin.coinId,
+                            symbol: _getTicker(widget.coin.coinId),
+                            name: _getName(widget.coin.coinId),
+                            amount: amount,
+                            buyPrice: buyPrice,
+                            buyDate: DateTime.now(),
+                          ),
+                        ),
+                      );
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Added ${widget.coin.coinId.toUpperCase()} to portfolio'),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  ),
+                  child: const Text('Confirm', style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -270,7 +379,7 @@ class _CoinDetailPageState extends State<CoinDetailPage> {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: _showAddPortfolioSheet,
                       icon: const Icon(LucideIcons.plus, color: Colors.green),
                       label: const Text('Add to Portfolio'),
                       style: ElevatedButton.styleFrom(

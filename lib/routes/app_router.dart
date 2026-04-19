@@ -9,6 +9,7 @@ import '../features/ai_insights/presentation/pages/ai_insights_page.dart';
 import '../features/splash/presentation/pages/splash_screen.dart';
 import 'go_router_refresh_stream.dart';
 import '../features/market/presentation/pages/market_page.dart';
+import '../features/portfolio/presentation/pages/portfolio_page.dart';
 import '../features/market/presentation/pages/coin_detail_page.dart';
 
 class AppRouter {
@@ -97,6 +98,10 @@ class AppRouter {
         GoRoute(
           path: '/ai-insights',
           builder: (context, state) => const AiInsightsPage(),
+        ),
+        GoRoute(
+          path: '/portfolio',
+          builder: (context, state) => const PortfolioPage(),
         ),
       ],
     );

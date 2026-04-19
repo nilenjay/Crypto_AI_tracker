@@ -11,6 +11,9 @@ import 'features/auth/presentation/auth_bloc/auth_bloc.dart';
 import 'features/market/data/market_api_service.dart';
 import 'features/market/presentation/bloc/market_bloc.dart';
 import 'features/market/presentation/bloc/coin_detail_bloc.dart';
+import 'features/portfolio/data/repositories/portfolio_repository.dart';
+import 'features/portfolio/presentation/bloc/portfolio_bloc.dart';
+import 'features/portfolio/presentation/bloc/portfolio_event.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,12 +26,14 @@ void main() async {
 
   final authRepository = AuthRepository();
   final marketApiService = MarketApiService();
+  final portfolioRepository = PortfolioRepository();
   
   runApp(
     MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: authRepository),
         RepositoryProvider.value(value: marketApiService),
+        RepositoryProvider.value(value: portfolioRepository),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -40,6 +45,12 @@ void main() async {
           ),
           BlocProvider(
             create: (context) => CoinDetailBloc(apiService: marketApiService),
+          ),
+          BlocProvider(
+            create: (context) => PortfolioBloc(
+              portfolioRepository: portfolioRepository,
+              marketApiService: marketApiService,
+            )..add(PortfolioSubscriptionRequested()),
           ),
         ],
         child: const MyApp(),

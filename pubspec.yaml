@@ -58,6 +58,7 @@ dependencies:
   fl_chart: ^0.70.2
   shimmer: ^3.0.0
   flutter_spinkit: ^5.2.1
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
