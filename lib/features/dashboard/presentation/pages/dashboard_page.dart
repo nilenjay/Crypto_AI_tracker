@@ -346,31 +346,34 @@ class DashboardPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildNavItem(LucideIcons.house, 'Home', true),
-          _buildNavItem(LucideIcons.chart_bar_big, 'Market', false),
-          _buildNavItem(LucideIcons.wallet, 'Portfolio', false),
-          _buildNavItem(LucideIcons.cpu, 'AI', false),
-          _buildNavItem(LucideIcons.user, 'Profile', false),
+          _buildNavItem(LucideIcons.house, 'Home', true, null, context),
+          _buildNavItem(LucideIcons.chart_bar_big, 'Market', false, null, context),
+          _buildNavItem(LucideIcons.wallet, 'Portfolio', false, null, context),
+          _buildNavItem(LucideIcons.cpu, 'AI', false, null, context),
+          _buildNavItem(LucideIcons.user, 'Profile', false, '/profile', context),
         ],
       ),
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, bool isActive) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, color: isActive ? Colors.blueAccent : Colors.white54, size: 24),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            color: isActive ? Colors.blueAccent : Colors.white54,
-            fontSize: 10,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+  Widget _buildNavItem(IconData icon, String label, bool isActive, String? route, BuildContext context) {
+    return GestureDetector(
+      onTap: route != null ? () => context.go(route) : null,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: isActive ? Colors.blueAccent : Colors.white54, size: 24),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: isActive ? Colors.blueAccent : Colors.white54,
+              fontSize: 10,
+              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

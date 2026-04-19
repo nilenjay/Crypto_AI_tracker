@@ -5,6 +5,8 @@ import '../../data/auth_repository.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
+export 'auth_event.dart';
+export 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
