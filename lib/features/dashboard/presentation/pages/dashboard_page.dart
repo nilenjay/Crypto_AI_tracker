@@ -4,34 +4,30 @@ import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/widgets/custom_bottom_nav.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
 
   @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF0D0F14),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(context),
-              const SizedBox(height: 24),
-              _buildSearchBar(),
+              const SizedBox(height: 20),
+              _buildHeader(),
               const SizedBox(height: 24),
               _buildPortfolioCards(),
-              const SizedBox(height: 24),
-              _buildMarketTrendCard(),
-              const SizedBox(height: 32),
-              Text(
-                'LIVE PRICES',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      letterSpacing: 1.5,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white70,
-                    ),
-              ),
+              const SizedBox(height: 28),
+              _buildSectionHeader('Market Trends', 'See All'),
               const SizedBox(height: 16),
               _buildPriceList(),
               const SizedBox(height: 24),
@@ -45,7 +41,7 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -74,6 +70,22 @@ class DashboardPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: const Icon(LucideIcons.bell, size: 20),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSectionHeader(String title, String action) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        Text(
+          action,
+          style: const TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
         ),
       ],
     );

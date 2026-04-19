@@ -5,6 +5,8 @@ import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/signup_page.dart';
 import '../features/dashboard/presentation/pages/dashboard_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
+import '../features/ai_insights/presentation/pages/ai_insights_page.dart';
+import '../features/splash/presentation/pages/splash_screen.dart';
 import 'go_router_refresh_stream.dart';
 import '../features/market/presentation/pages/market_page.dart';
 
@@ -22,22 +24,31 @@ class AppRouter {
       ),
     ],
   );
+
   static GoRouter createRouter(AuthBloc authBloc) {
     return GoRouter(
-      initialLocation: '/login',
+      initialLocation: '/',
       refreshListenable: GoRouterRefreshStream(authBloc.stream),
       redirect: (context, state) {
         final authState = authBloc.state;
         final bool loggedIn = authState.status == AuthStatus.authenticated;
-        final bool isLoggingIn = state.matchedLocation == '/login' || state.matchedLocation == '/signup';
+        
+        // Paths that don't require authentication or redirection yet
+        final bool isSplash = state.matchedLocation == '/';
+        final bool isAuthPage = state.matchedLocation == '/login' || state.matchedLocation == '/signup';
+
+        // Allow splash screen to finish
+        if (isSplash) {
+          return null;
+        }
 
         // If not logged in and not on a login/signup page, go to /login
-        if (!loggedIn && !isLoggingIn) {
+        if (!loggedIn && !isAuthPage) {
           return '/login';
         }
 
         // If logged in and on a login/signup page, go to /dashboard
-        if (loggedIn && isLoggingIn) {
+        if (loggedIn && isAuthPage) {
           return '/dashboard';
         }
 
@@ -45,6 +56,10 @@ class AppRouter {
         return null;
       },
       routes: [
+        GoRoute(
+          path: '/',
+          builder: (context, state) => const SplashScreen(),
+        ),
         GoRoute(
           path: '/login',
           builder: (context, state) => const LoginPage(),
@@ -58,8 +73,16 @@ class AppRouter {
           builder: (context, state) => const DashboardPage(),
         ),
         GoRoute(
+          path: '/market',
+          builder: (context, state) => const MarketPage(),
+        ),
+        GoRoute(
           path: '/profile',
           builder: (context, state) => const ProfilePage(),
+        ),
+        GoRoute(
+          path: '/ai-insights',
+          builder: (context, state) => const AiInsightsPage(),
         ),
       ],
     );

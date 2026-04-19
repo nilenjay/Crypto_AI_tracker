@@ -21,8 +21,8 @@ class CustomBottomNavBar extends StatelessWidget {
           _buildNavItem(context, LucideIcons.house, 'Home', 0, '/dashboard'),
           _buildNavItem(context, LucideIcons.chart_bar_big, 'Market', 1, '/market'),
           _buildNavItem(context, LucideIcons.wallet, 'Portfolio', 2, ''),
-          _buildNavItem(context, LucideIcons.cpu, 'AI', 3, ''),
-          _buildNavItem(context, LucideIcons.user, 'Profile', 4, ''),
+          _buildNavItem(context, LucideIcons.cpu, 'AI', 3, '/ai-insights'),
+          _buildNavItem(context, LucideIcons.user, 'Profile', 4, '/profile'),
         ],
       ),
     );

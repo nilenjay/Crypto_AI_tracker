@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/widgets/custom_bottom_nav.dart';
 import '../../data/profile_repository.dart';
 import '../../data/profile_model.dart';
 import '../profile_bloc/profile_bloc.dart';
@@ -62,7 +63,7 @@ class _ProfilePageContent extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(context),
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 4),
     );
   }
 
@@ -491,54 +492,4 @@ class _ProfilePageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNav(BuildContext context) {
-    return Container(
-      height: 80,
-      decoration: const BoxDecoration(
-        color: Color(0xFF0D0F14),
-        border: Border(top: BorderSide(color: Colors.white10, width: 0.5)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavItem(context, LucideIcons.house, 'Home', false, '/dashboard'),
-          _buildNavItem(context, LucideIcons.chart_bar_big, 'Market', false, '/dashboard'),
-          _buildNavItem(context, LucideIcons.wallet, 'Portfolio', false, '/dashboard'),
-          _buildNavItem(context, LucideIcons.cpu, 'AI', false, '/dashboard'),
-          _buildNavItem(context, LucideIcons.user, 'Profile', true, '/profile'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavItem(
-    BuildContext context,
-    IconData icon,
-    String label,
-    bool isActive,
-    String route,
-  ) {
-    return GestureDetector(
-      onTap: () => context.go(route),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: isActive ? const Color(0xFF00C076) : Colors.white38,
-            size: 24,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              color: isActive ? const Color(0xFF00C076) : Colors.white38,
-              fontSize: 10,
-              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
